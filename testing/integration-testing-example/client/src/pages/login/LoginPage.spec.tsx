@@ -49,7 +49,7 @@ describe('Feature: Login', () => {
           await waitForResponse()  
 
           // Assert
-          // Todo: spy on the call the history object and see that it called /dashboard
+          // Todo: spy on the call to the history object and see that it called /dashboard
           
 
         })
