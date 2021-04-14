@@ -40,15 +40,16 @@ describe('Feature: Login', () => {
           const emailInput = await component.getByPlaceholderText(/email/);
           fireEvent.change(emailInput, { target: { value: 'khalil@apollographql.com'}});
           
-
           const passwordInput = await component.getByPlaceholderText(/password/);
           fireEvent.change(passwordInput, { target: { value: 'tacos'}})
 
           const button = await component.findByRole('button');
 
-          // Assert
           button.click();
-          await waitForResponse()        
+          await waitForResponse()  
+
+          // Assert
+          // Todo: spy on the call the history object and see that it called /dashboard
           
 
         })
