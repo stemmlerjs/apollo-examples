@@ -1,9 +1,10 @@
 import { RouterTextUtils } from "../../shared/testing/RouterTestUtils"
 import LoginPage from "./LoginPage"
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent } from "@testing-library/dom"
+import { fireEvent, waitFor } from "@testing-library/dom"
 import { LOGIN } from './useLogin'
 import { act } from "@testing-library/react"
+import { Login, LoginVariables, Login_login } from "./__generated__/Login"
 
 const waitForResponse = () => new Promise(res => setTimeout(res,0));
 
@@ -15,22 +16,25 @@ describe('Feature: Login', () => {
         test('Then I should be redirected to the dashboard', async () => {
 
           // Arrange
-
           const mocks = [
             {
               request: {
                 query: LOGIN,
-                variables: {input: {email: 'khalil@apollographql.com', password: "tacos"}},
+                variables: {
+                  input: {
+                    email: 'khalil@apollographql.com', password: "tacos"
+                  }
+                } as LoginVariables,
               },
               result: {
                 data: {
                   login: {
-                    __typeName: 'LoginSuccess',
+                    __typename: 'LoginSuccess',
                     token: "bingo-bango-boom-auth-token",
                   },
-                },
+                } as Login,
               },
-            },
+            }
           ];
 
           const component = RouterTextUtils.renderWithRouter(
@@ -49,7 +53,7 @@ describe('Feature: Login', () => {
           const button = await component.findByRole('button');
 
           button.click();
-          
+
           await act(async() => {
             await waitForResponse()  
           })   

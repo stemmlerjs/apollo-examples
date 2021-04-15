@@ -74,7 +74,6 @@ export function useLogin () {
         history.push('/dashboard');
         break;
       default:
-        console.log("should not hit this", data?.login.__typeName, data?.login.__typeName === 'LoginSuccess')
         break;
     }
   }, [data])
