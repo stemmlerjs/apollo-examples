@@ -3,6 +3,7 @@ import LoginPage from "./LoginPage"
 import { MockedProvider } from '@apollo/client/testing'
 import { fireEvent } from "@testing-library/dom"
 import { LOGIN } from './useLogin'
+import { act } from "@testing-library/react"
 
 const waitForResponse = () => new Promise(res => setTimeout(res,0));
 
@@ -18,20 +19,22 @@ describe('Feature: Login', () => {
           const mocks = [
             {
               request: {
-                query: LOGIN
+                query: LOGIN,
+                variables: {input: {email: 'khalil@apollographql.com', password: "tacos"}},
               },
               result: {
                 data: {
                   login: {
+                    __typeName: 'LoginSuccess',
                     token: "bingo-bango-boom-auth-token",
-                  }
-                }
+                  },
+                },
               },
             },
           ];
 
           const component = RouterTextUtils.renderWithRouter(
-            <MockedProvider mocks={mocks} addTypename={false}>
+            <MockedProvider mocks={mocks} addTypename={true}>
               <LoginPage/>
             </MockedProvider>
           );
@@ -46,7 +49,10 @@ describe('Feature: Login', () => {
           const button = await component.findByRole('button');
 
           button.click();
-          await waitForResponse()  
+          
+          await act(async() => {
+            await waitForResponse()  
+          })   
 
           // Assert
           // Todo: spy on the call to the history object and see that it called /dashboard

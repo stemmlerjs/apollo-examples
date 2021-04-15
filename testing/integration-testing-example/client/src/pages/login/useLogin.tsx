@@ -64,18 +64,17 @@ export function useLogin () {
   }
 
   useEffect(() => {
-    console.log(data?.login)
     switch (data?.login.__typename) {
       case 'EmailNotFoundError':
       case 'PasswordIncorrectError':
-        console.log('error states')
         setErrorMessage(data.login.message);
         break;
-      case 'LoginSuccess':
-        console.log('success states')
+      case "LoginSuccess":
+        console.log('Should fire success state')
         history.push('/dashboard');
         break;
       default:
+        console.log("should not hit this", data?.login.__typeName, data?.login.__typeName === 'LoginSuccess')
         break;
     }
   }, [data])
