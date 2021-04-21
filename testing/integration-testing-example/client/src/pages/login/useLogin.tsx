@@ -70,7 +70,6 @@ export function useLogin () {
         setErrorMessage(data.login.message);
         break;
       case "LoginSuccess":
-        console.log('Should fire success state')
         history.push('/dashboard');
         break;
       default:

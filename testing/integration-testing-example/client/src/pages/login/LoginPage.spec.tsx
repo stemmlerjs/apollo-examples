@@ -1,12 +1,11 @@
-import { RouterTextUtils } from "../../shared/testing/RouterTestUtils"
+import { RouterTestUtils } from "../../shared/testing/RouterTestUtils"
 import LoginPage from "./LoginPage"
 import { MockedProvider } from '@apollo/client/testing'
-import { fireEvent, waitFor } from "@testing-library/dom"
+import { fireEvent } from "@testing-library/dom"
 import { LOGIN } from './useLogin'
 import { act } from "@testing-library/react"
-import { Login, LoginVariables, Login_login } from "./__generated__/Login"
-
-const waitForResponse = () => new Promise(res => setTimeout(res,0));
+import { Login, LoginVariables } from "./__generated__/Login"
+import { waitForResponse } from "../../shared/testing/WaitForResponse"
 
 describe('Feature: Login', () => {
 
@@ -37,11 +36,13 @@ describe('Feature: Login', () => {
             }
           ];
 
-          const component = RouterTextUtils.renderWithRouter(
+          const { component, router } = RouterTestUtils.renderWithRouter(
             <MockedProvider mocks={mocks} addTypename={true}>
               <LoginPage/>
             </MockedProvider>
           );
+
+          const routerSpy = jest.spyOn(router, 'pushState');
 
           // Act
           const emailInput = await component.getByPlaceholderText(/email/);
@@ -59,8 +60,8 @@ describe('Feature: Login', () => {
           })   
 
           // Assert
-          // Todo: spy on the call to the history object and see that it called /dashboard
-          
+          expect(RouterTestUtils.wasRouteCalled(routerSpy, '/dashboard'))
+            .toEqual(true);
 
         })
       })
