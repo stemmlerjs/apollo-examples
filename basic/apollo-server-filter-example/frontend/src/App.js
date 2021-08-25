@@ -12,7 +12,10 @@ const GET_ALBUMS = gql`
 `;
 
 function useAlbumFilters() {
-  const [filters, _updateFilter] = useState({ id: undefined, name: undefined });
+  const [filters, _updateFilter] = useState({ 
+    id: undefined, 
+    name: undefined 
+  });
 
   const updateFilter = (filterType, value) => {
     _updateFilter({
@@ -29,14 +32,10 @@ function useAlbumFilters() {
 function App() {
   const { operations, models } = useAlbumFilters();
 
-  const { data, loading, error, refetch } = useQuery(GET_ALBUMS, {
-    fetchPolicy: "network-only"
-  });
+  const { data, loading, error, refetch } = useQuery(GET_ALBUMS);
 
   if (loading) return <div>Loading</div>;
   if (error) return <div>error</div>;
-
-  console.log(models.filters);
 
   return (
     <div className="App">
@@ -53,11 +52,9 @@ function App() {
       <button
         onClick={() =>
           refetch({
-            fetchPolicy: "no-cache",
-            variables: {
-              albumsInput: { name: "prayers" },
-            },
-          },)
+            // Must adhere to this shape - don't use "variables"
+            albumsInput: { name: models.filters.name },
+          })
         }
       >
         Search!
