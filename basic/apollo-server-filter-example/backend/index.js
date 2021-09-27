@@ -18,21 +18,26 @@ const typeDefs = gql`
 `
 
 const albums = [
-  { id: '1', name: 'Prayers on Fire' },
-  { id: '2', name: 'Bad Faith' }
+  { id: '1', name: `Paul's Boutique` },
+  { id: '2', name: 'Thriller' },
+  { id: '3', name: 'London Calling' },
 ]
 
 const resolvers = {
   Query: {
     albums: (_, args, ___) => {
-      console.log(_, args, ___)
       let result = albums;
 
       const shouldApplyNameFilter = args.input && args.input.name;
 
       if (shouldApplyNameFilter) {
-        result = result.filter((r) => r.name.indexOf(args.name) !== -1)
+        const nameFilter = args.input.name;
+
+        result = result.filter((r) => r.name.toLowerCase()
+          .indexOf(nameFilter.toLowerCase()) !== -1);
       }
+
+      console.log(args)
 
       console.log(result);
 

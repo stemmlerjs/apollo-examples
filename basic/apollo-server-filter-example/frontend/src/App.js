@@ -1,3 +1,4 @@
+import React from 'react'
 import "./App.css";
 import { useQuery, gql } from "@apollo/client";
 import { useState } from "react";
@@ -39,15 +40,23 @@ function App() {
 
   return (
     <div className="App">
-      <p>Name: </p>
-      <input
-        onChange={(e) => operations.updateFilter("name", e.target.value)}
-        type="string"
-      />
+      <h1>Albums</h1>
+
+      <div>
+        <label>Search</label>
+        <input
+          onChange={(e) => operations.updateFilter("name", e.target.value)}
+          type="string"
+        />
+      </div>
+
+      <br/>
 
       {data.albums.map((album) => (
         <div>{JSON.stringify(album)}</div>
       ))}
+
+      <br/>
 
       <button
         onClick={() =>
@@ -57,7 +66,7 @@ function App() {
           })
         }
       >
-        Search!
+        Submit!
       </button>
     </div>
   );
